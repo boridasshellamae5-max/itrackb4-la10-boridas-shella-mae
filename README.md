@@ -1,13 +1,15 @@
-Laboratory Activity 9
 
-F1. Which column did you make nullable, and why that one and not another?
+ITRACKB4 – Laboratory Activity 10
+Your Own Lookup Table
 
-I made the `description` column nullable because a product can still be added even if it does not have a description yet. The other columns, such as name, price, quantity, category, and availability, are important product information, so I made them required.
+G1. Which column did you turn into a table, and why that one and not another?
 
-F2. Which step failed first for you, and what did the error say?
+I turned the `category` column into a separate `categories` table because multiple products share the same category, such as Electronics and Accessories. Separating it avoids repeated category names and allows products to reference categories through a foreign key called `category_id`.
 
-The first error I encountered was the `MissingAppKeyException`. It said, "No application encryption key has been specified." I fixed it by running `php artisan key:generate` in the terminal.
+G2. What number did screenshot 6 show, and why exactly that number?
 
-F3. You changed no Blade file in Part D, yet your pages still work. Why not?
+Screenshot 6 showed 7 queries. It executed one query to retrieve the six products and six additional queries to retrieve each product's category individually because eager loading was not yet used.
 
-The Blade files still work because the controller continues to pass the same variables expected by the views, such as `$products`, `$product`, `$category`, and `$price`. The difference is that the product records now come from the database through Eloquent instead of the old PHP array.
+G3. Your belongsTo method is named in the singular. What would break if you made it plural?
+
+The relationship method is named `category()` because each product belongs to one category. If I named it `categories()`, Eloquent would assume a different foreign key, such as `categories_id`, and the relationship would not work correctly with my `category_id` column.

@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 
 @section('title', 'All Products')
@@ -10,49 +11,42 @@
 
 <h5>Filter by Category</h5>
 
-<a href="{{ route('products.index', ['category' => 'Electronics', 'price' => $price]) }}"
+<a href="{{ route('products.index', ['category_id' => 1, 'price' => $price]) }}"
    class="btn btn-primary btn-sm">
     Electronics
 </a>
 
-<a href="{{ route('products.index', ['category' => 'Accessories', 'price' => $price]) }}"
+<a href="{{ route('products.index', ['category_id' => 2, 'price' => $price]) }}"
    class="btn btn-primary btn-sm">
     Accessories
+</a>
+
+<a href="{{ route('products.index', ['category_id' => 3, 'price' => $price]) }}"
+   class="btn btn-primary btn-sm">
+    Office Equipment
 </a>
 
 <hr>
 
 <h5>Filter by Price</h5>
 
-<a href="{{ route('products.index', ['category' => $category, 'price' => 45000]) }}"
-   class="btn btn-secondary btn-sm">
-    ₱45,000
-</a>
+<a href="{{ route('products.index', ['category_id' => $category, 'price' => 45000]) }}"
+   class="btn btn-secondary btn-sm">₱45,000</a>
 
-<a href="{{ route('products.index', ['category' => $category, 'price' => 15000]) }}"
-   class="btn btn-secondary btn-sm">
-    ₱15,000
-</a>
+<a href="{{ route('products.index', ['category_id' => $category, 'price' => 15000]) }}"
+   class="btn btn-secondary btn-sm">₱15,000</a>
 
-<a href="{{ route('products.index', ['category' => $category, 'price' => 1200]) }}"
-   class="btn btn-secondary btn-sm">
-    ₱1,200
-</a>
+<a href="{{ route('products.index', ['category_id' => $category, 'price' => 1200]) }}"
+   class="btn btn-secondary btn-sm">₱1,200</a>
 
-<a href="{{ route('products.index', ['category' => $category, 'price' => 800]) }}"
-   class="btn btn-secondary btn-sm">
-    ₱800
-</a>
+<a href="{{ route('products.index', ['category_id' => $category, 'price' => 800]) }}"
+   class="btn btn-secondary btn-sm">₱800</a>
 
-<a href="{{ route('products.index', ['category' => $category, 'price' => 2500]) }}"
-   class="btn btn-secondary btn-sm">
-    ₱2,500
-</a>
+<a href="{{ route('products.index', ['category_id' => $category, 'price' => 2500]) }}"
+   class="btn btn-secondary btn-sm">₱2,500</a>
 
-<a href="{{ route('products.index', ['category' => $category, 'price' => 8500]) }}"
-   class="btn btn-secondary btn-sm">
-    ₱8,500
-</a>
+<a href="{{ route('products.index', ['category_id' => $category, 'price' => 8500]) }}"
+   class="btn btn-secondary btn-sm">₱8,500</a>
 
 <hr>
 
@@ -64,7 +58,7 @@
 <hr>
 
 <p>
-    <strong>Category:</strong>
+    <strong>Category ID:</strong>
     {{ $category !== '' ? $category : 'All' }}
 </p>
 
@@ -91,20 +85,15 @@
         @forelse ($products as $product)
 
         <tr>
-            <td>{{ $product['id'] }}</td>
+            <td>{{ $product->id }}</td>
+            <td>{{ $product->name }}</td>
+            <td>₱{{ number_format($product->price) }}</td>
+            <td>{{ $product->quantity }}</td>
 
-            <td>{{ $product['name'] }}</td>
-
-            <td>
-                ₱{{ number_format($product['price']) }}
-            </td>
-
-            <td>{{ $product['quantity'] }}</td>
-
-            <td>{{ $product['category'] }}</td>
+            <td>{{ $product->category->name ?? 'No Category' }}</td>
 
             <td>
-                <a href="{{ route('products.show', $product['id']) }}"
+                <a href="{{ route('products.show', $product->id) }}"
                    class="btn btn-info btn-sm">
                     View
                 </a>
@@ -124,5 +113,12 @@
     </tbody>
 
 </table>
+
+<hr>
+
+<p>
+    <strong>Queries:</strong>
+    {{ count(DB::getQueryLog()) }}
+</p>
 
 @endsection
